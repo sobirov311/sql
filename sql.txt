@@ -1,0 +1,39 @@
+-- INSERT INTO books(title,author,year,price)
+--  VALUES  ("O'tkan kunlar",    'Abdulla Qodiriy',  1925, 35000),
+--   ('Mehrobdan chayon',  'Abdulla Qodiriy',  1929, 40000),
+--   ('Sarob',             'Abdulla Qahhor',   1943, 28000),
+--   ("Qo'shchinor",       'Oybek',            1958, 32000),
+--   ('Navoiy',            'Oybek',            1944, 45000);
+--   SELECT*FROM books;
+
+-- INSERT INTO students (name, age, major, gpa) VALUES
+--   ('Alibek Karimov',   20, 'Informatika',     3.85),
+--   ('Malika Yusupova',  21, 'Matematika',      3.60),
+--   ('Jasur Toshmatov',  19, 'Fizika',          3.20),
+--   ('Nodira Rahimova',  22, 'Iqtisodiyot',     3.95),
+--   ('Sherzod Nazarov',  20, 'Muhandislik',     3.40);
+--   SELECT*FROM students;
+
+-- INSERT INTO products (name, category, quantity, price) VALUES
+--   ('Noutbuk',      'Elektronika', 15, 8500000),
+--   ('Telefon',      'Elektronika', 40, 4200000),
+--   ('Stol',         'Mebel',       10,  950000),
+--   ('Kitob toʻplam','Kitoblar',    60,  180000),
+--   ('Kiyim',        'Kiyim-kechak',25,  320000);
+SELECT*FROM products;
+
+-- INSERT INTO orders (customer_name, product_name, quantity, order_date) VALUES
+--   ('Bobur Mirzayev',  'Noutbuk',  1, '2025-01-10'),
+--   ('Zulfiya Hasanova','Telefon',  2, '2025-01-15'),
+--   ('Otabek Rашidov',  'Kiyim',    3, '2025-02-01'),
+--   ('Kamola Norova',   'Kitob',    5, '2025-02-10'),
+--   ('Sardor Qodirov',  'Stol',     1, '2025-02-20');
+SELECT*FROM orders;
+
+-- INSERT INTO movies (title, genre, release_year, rating) VALUES
+--   ('Inception',         'Triller',   2010, 8.8),
+--   ('The Dark Knight',   'Harakat',   2008, 9.0),
+--   ('Interstellar',      'Fantastika',2014, 8.6),
+--   ('The Godfather',     'Drama',     1972, 9.2),
+--   ('Forrest Gump',      'Drama',     1994, 8.8);
+SELECT*FROM movies;
