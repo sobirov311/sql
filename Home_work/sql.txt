@@ -1,0 +1,160 @@
+
+
+CREATE TABLE IF NOT EXISTS talabalar (
+    id       INTEGER PRIMARY KEY AUTOINCREMENT,
+    ism      TEXT NOT NULL,
+    familiya TEXT NOT NULL,
+    yosh     INTEGER NOT NULL,
+    kurs     INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS oqituvchilar (
+    id       INTEGER PRIMARY KEY AUTOINCREMENT,
+    ism      TEXT NOT NULL,
+    familiya TEXT NOT NULL,
+    fan      TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS buyurtmalar (
+    buyurtma_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    mahsulot    TEXT NOT NULL,
+    miqdor      INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS jonatmalar (
+    jonatma_id  INTEGER PRIMARY KEY AUTOINCREMENT,
+    buyurtma_id INTEGER,
+    mahsulot    TEXT NOT NULL,
+    miqdor      INTEGER NOT NULL
+);
+
+
+INSERT INTO talabalar (ism, familiya, yosh, kurs) VALUES
+    ('Ali',     'Karimov',    20, 2),
+    ('Odil',    'Toshmatov',  21, 3),
+    ('Iroda',   'Yusupova',   19, 1),
+    ('Bobur',   'Rahimov',    22, 4),
+    ('Elena',   'Saidova',    20, 2),
+    ('Umida',   'Nazarova',   21, 3),
+    ('Jasur',   'Holmatov',   20, 2),
+    ('Aziz',    'Mirzayev',   23, 4),
+    ('Nilufar', 'Ergasheva',  19, 1),
+    ('Islom',   'Baxtiyorov', 22, 3);
+
+INSERT INTO oqituvchilar (ism, familiya, fan) VALUES
+    ('Anvar',   'Qodirov',   'Matematika'),
+    ('Dilorom', 'Salimova',  'Fizika'),
+    ('Otabek',  'Hamidov',   'Informatika'),
+    ('Ezgulik', 'Tursunova', 'Kimyo'),
+    ('Sardor',  'Umarov',    'Tarix'),
+    ('Ulugbek', 'Rashidov',  'Biologiya'),
+    ('Malika',  'Xoliqova',  'Ingliz tili'),
+    ('Ibrohim', 'Normatov',  'Adabiyot');
+
+INSERT INTO buyurtmalar (mahsulot, miqdor) VALUES
+    ('Noutbuk',    3),
+    ('Telefon',    5),
+    ('Planshet',   2),
+    ('Monitor',    7),
+    ('Klaviatura', 10),
+    ('Sichqoncha', 8),
+    ('Printer',    1),
+    ('Kamera',     4),
+    ('Mikrofon',   6),
+    ('Naushnik',   5);
+
+INSERT INTO jonatmalar (buyurtma_id, mahsulot, miqdor) VALUES
+    (1,    'Noutbuk',    3),
+    (2,    'Telefon',    5),
+    (3,    'Planshet',   2),
+    (4,    'Monitor',    7),
+    (5,    'Klaviatura', 10),
+    (6,    'Sichqoncha', 8),
+    (9,    'Mikrofon',   6),
+    (10,   'Naushnik',   5),
+    (NULL, 'Kabel',      12),
+    (NULL, 'Adapter',    3);
+
+SELECT ism, familiya, 'Talaba' AS tur
+FROM talabalar
+WHERE ism LIKE 'A%' OR ism LIKE 'E%' OR ism LIKE 'I%'
+   OR ism LIKE 'O%' OR ism LIKE 'U%'
+UNION
+SELECT ism, familiya, 'Oqituvchi' AS tur
+FROM oqituvchilar
+WHERE ism LIKE 'A%' OR ism LIKE 'E%' OR ism LIKE 'I%'
+   OR ism LIKE 'O%' OR ism LIKE 'U%';
+
+SELECT * FROM (
+    SELECT ism, familiya FROM talabalar
+    UNION
+    SELECT ism, familiya FROM oqituvchilar
+) ORDER BY LENGTH(familiya), familiya;
+
+
+SELECT ism, familiya, 'Talaba' AS manba
+FROM talabalar
+UNION
+SELECT ism, familiya, 'Oqituvchi' AS manba
+FROM oqituvchilar
+ORDER BY manba, familiya;
+
+
+SELECT id, ism, familiya FROM (
+    SELECT id, ism, familiya FROM talabalar
+    ORDER BY id DESC LIMIT 3
+) t
+UNION
+SELECT id, ism, familiya FROM (
+    SELECT id, ism, familiya FROM oqituvchilar
+    ORDER BY id DESC LIMIT 3
+) o
+ORDER BY id DESC;
+
+
+SELECT mahsulot, miqdor FROM buyurtmalar
+INTERSECT
+SELECT mahsulot, miqdor FROM jonatmalar;
+
+
+SELECT mahsulot, miqdor FROM buyurtmalar WHERE miqdor >= 5
+INTERSECT
+SELECT mahsulot, miqdor FROM jonatmalar WHERE miqdor >= 5;
+
+SELECT buyurtma_id FROM buyurtmalar
+INTERSECT
+SELECT buyurtma_id FROM jonatmalar;
+
+
+SELECT * FROM (
+    SELECT mahsulot, miqdor FROM jonatmalar
+    INTERSECT
+    SELECT mahsulot, miqdor FROM buyurtmalar
+) ORDER BY mahsulot;
+
+
+SELECT mahsulot FROM buyurtmalar
+EXCEPT
+SELECT mahsulot FROM jonatmalar;
+
+SELECT * FROM (
+    SELECT mahsulot FROM jonatmalar
+    EXCEPT
+    SELECT mahsulot FROM buyurtmalar
+) ORDER BY mahsulot;
+
+SELECT buyurtma_id FROM buyurtmalar
+WHERE buyurtma_id >= 10
+EXCEPT
+SELECT buyurtma_id FROM jonatmalar
+WHERE buyurtma_id IS NOT NULL;
+
+
+SELECT * FROM (
+    SELECT jonatma_id FROM jonatmalar WHERE miqdor < 5
+    EXCEPT
+    SELECT jonatma_id FROM jonatmalar
+    WHERE buyurtma_id IN (SELECT buyurtma_id FROM buyurtmalar)
+      AND miqdor < 5
+) ORDER BY jonatma_id DESC;
+
